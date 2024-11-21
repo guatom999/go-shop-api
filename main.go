@@ -10,7 +10,7 @@ func main() {
 
 	conf := config.GetConfig()
 	db := databases.NewPostgresDatabase(conf.Database)
-	server := server.NewEchoServer(conf, db.ConnectDatabase())
+	server := server.NewEchoServer(conf, db)
 
 	server.Start()
 }

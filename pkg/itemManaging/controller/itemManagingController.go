@@ -6,5 +6,6 @@ type (
 	ItemManagingController interface {
 		Creating(pctx echo.Context) error
 		Editing(pctx echo.Context) error
+		Archiving(pctx echo.Context) error
 	}
 )
