@@ -6,6 +6,7 @@ require github.com/spf13/viper v1.19.0
 
 require (
 	cloud.google.com/go/compute/metadata v0.3.0 // indirect
+	github.com/avast/retry-go v3.0.0+incompatible // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
