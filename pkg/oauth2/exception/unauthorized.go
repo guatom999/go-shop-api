@@ -1,4 +1,4 @@
-package exceoption
+package exception
 
 type (
 	UnAuthorized struct {

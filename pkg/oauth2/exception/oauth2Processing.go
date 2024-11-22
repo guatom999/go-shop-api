@@ -1,4 +1,4 @@
-package exceoption
+package exception
 
 type (
 	OAuth2Processing struct {
