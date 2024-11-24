@@ -7,7 +7,7 @@ import (
 	_itemShopRepository "github.com/guatom999/go-shop-api/pkg/itemShop/repository"
 )
 
-func (s *echoServer) initItemManagingRouter() {
+func (s *echoServer) initItemManagingRouter(m *authorizingMiddleware) {
 
 	itemShopRepository := _itemShopRepository.NewItemShopRepositoryImpl(s.db, s.app.Logger)
 
@@ -17,8 +17,8 @@ func (s *echoServer) initItemManagingRouter() {
 
 	router := s.app.Group("/v1/item-managing")
 
-	router.POST("", itemManagingController.Creating)
-	router.PATCH("/:itemID", itemManagingController.Editing)
-	router.DELETE("/:itemID", itemManagingController.Archiving)
+	router.POST("", itemManagingController.Creating, m.AdminAuthorizing)
+	router.PATCH("/:itemID", itemManagingController.Editing, m.AdminAuthorizing)
+	router.DELETE("/:itemID", itemManagingController.Archiving, m.AdminAuthorizing)
 
 }

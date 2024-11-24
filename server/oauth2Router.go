@@ -13,7 +13,7 @@ func (s *echoServer) initOAuth2Router() {
 	playerRepository := _playerRepository.NewPlayerRepositoryImpl(s.db, s.app.Logger)
 	adminRepository := _adminRepository.NewAdminRepositoryImpl(s.db, s.app.Logger)
 
-	oauth2Service := _oauth2Service.NewGoogleOAuthRepository(playerRepository, adminRepository)
+	oauth2Service := _oauth2Service.NewGoogleOAuthService(playerRepository, adminRepository)
 	oauth2Controller := _oauth2Controller.NewGoogleOAuth2Controller(
 		oauth2Service,
 		s.conf.OAuth2,

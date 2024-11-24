@@ -15,7 +15,7 @@ type (
 	}
 )
 
-func NewGoogleOAuthRepository(playerRepository _playerRepository.PlayerRepository,
+func NewGoogleOAuthService(playerRepository _playerRepository.PlayerRepository,
 	adminRepository _adminRepository.AdminRepository) OAuth2Service {
 	return &googleOAuth2Service{
 		playerRepository: playerRepository,
