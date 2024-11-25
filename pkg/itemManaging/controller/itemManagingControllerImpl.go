@@ -7,6 +7,7 @@ import (
 	"github.com/guatom999/go-shop-api/pkg/custom"
 	_itemManagingModel "github.com/guatom999/go-shop-api/pkg/itemManaging/model"
 	_itemManagingService "github.com/guatom999/go-shop-api/pkg/itemManaging/service"
+	"github.com/guatom999/go-shop-api/pkg/validation"
 	"github.com/labstack/echo/v4"
 )
 
@@ -21,6 +22,12 @@ func NewItemManagingControllerImpl(itemManagingService _itemManagingService.Item
 }
 
 func (c *itemManagingControllerImpl) Creating(pctx echo.Context) error {
+
+	adminID, err := validation.AdminIDGetting(pctx)
+	if err != nil {
+		return custom.Error(pctx, http.StatusBadRequest, err)
+	}
+
 	itemCreatingReq := new(_itemManagingModel.ItemCreatingReq)
 
 	customEchoRequest := custom.NewCustomEchoRequest(pctx)
@@ -28,6 +35,8 @@ func (c *itemManagingControllerImpl) Creating(pctx echo.Context) error {
 	if err := customEchoRequest.Bind(itemCreatingReq); err != nil {
 		return custom.Error(pctx, http.StatusBadRequest, err)
 	}
+
+	itemCreatingReq.AdminID = adminID
 
 	item, err := c.itemManagingService.Createing(itemCreatingReq)
 	if err != nil {

@@ -4,7 +4,7 @@ import "time"
 
 type (
 	PlayerCoin struct {
-		ID        string    `json:"id"`
+		ID        uint64    `json:"id"`
 		PlayerID  string    `json:"playerID"`
 		Amount    int64     `json:"amount"`
 		CreatedAT time.Time `json:"createdAT"`
