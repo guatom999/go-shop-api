@@ -1,6 +1,10 @@
 package entities
 
-import "time"
+import (
+	"time"
+
+	_playerCoinModel "github.com/guatom999/go-shop-api/pkg/playerCoin/model"
+)
 
 type (
 	PlayerCoin struct {
@@ -10,3 +14,12 @@ type (
 		CreatedAt time.Time `gorm:"not null;autoCreateTime;"`
 	}
 )
+
+func (p *PlayerCoin) ToPlayerCoinModel() *_playerCoinModel.PlayerCoin {
+	return &_playerCoinModel.PlayerCoin{
+		ID:        p.ID,
+		PlayerID:  p.PlayerId,
+		Amount:    p.Amount,
+		CreatedAT: p.CreatedAt,
+	}
+}
