@@ -7,12 +7,12 @@ type (
 		ID        uint64    `json:"id"`
 		PlayerID  string    `json:"playerID"`
 		Amount    int64     `json:"amount"`
-		CreatedAT time.Time `json:"createdAT"`
+		CreatedAt time.Time `json:"createdAt"`
 	}
 
 	CoinAddingReq struct {
 		PlayerID string
-		Amount   int64 `json:"amount" validate="required,gt=0"`
+		Amount   int64 `json:"amount" validate:"required,gt=0"`
 	}
 
 	PlayerCoinShowing struct {
