@@ -5,9 +5,7 @@ import (
 	_playerCoinModel "github.com/guatom999/go-shop-api/pkg/playerCoin/model"
 )
 
-type (
-	PlayerCoinRepository interface {
-		CoinAdding(playerCoinEntity *entities.PlayerCoin) (*entities.PlayerCoin, error)
-		Showing(playerID string) (*_playerCoinModel.PlayerCoinShowing, error)
-	}
-)
+type PlayerCoinRepository interface {
+	CoinAdding(playerCoinEntity *entities.PlayerCoin) (*entities.PlayerCoin, error)
+	Showing(playerID string) (*_playerCoinModel.PlayerCoinShowing, error)
+}

@@ -8,12 +8,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type (
-	playerCoinRepositoryImpl struct {
-		db     databases.Database
-		logger echo.Logger
-	}
-)
+type playerCoinRepositoryImpl struct {
+	db     databases.Database
+	logger echo.Logger
+}
 
 func NewPlayerCoinRepositoryImpl(
 	db databases.Database,
