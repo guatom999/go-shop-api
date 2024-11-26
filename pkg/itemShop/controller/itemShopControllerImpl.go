@@ -7,6 +7,7 @@ import (
 	_itemShopException "github.com/guatom999/go-shop-api/pkg/itemShop/exception"
 	_itemShopModel "github.com/guatom999/go-shop-api/pkg/itemShop/model"
 	_itemShopService "github.com/guatom999/go-shop-api/pkg/itemShop/service"
+	"github.com/guatom999/go-shop-api/pkg/validation"
 	"github.com/labstack/echo/v4"
 )
 
@@ -37,4 +38,29 @@ func (c *itemShopControllerImpl) Listing(pctx echo.Context) error {
 
 	return pctx.JSON(http.StatusOK, itemModelList)
 
+}
+
+func (c *itemShopControllerImpl) Buying(pctx echo.Context) error {
+
+	playerID, err := validation.PlayerIDGetting(pctx)
+	if err != nil {
+		return custom.Error(pctx, http.StatusBadRequest, err)
+	}
+
+	buyingReq := new(_itemShopModel.BuyingReq)
+
+	customEchoRequest := custom.NewCustomEchoRequest(pctx)
+
+	if err := customEchoRequest.Bind(buyingReq); err != nil {
+		return custom.Error(pctx, http.StatusBadRequest, err)
+	}
+
+	buyingReq.PlayerID = playerID
+
+	playerCoin, err := c.itemShopService.Buying(buyingReq)
+	if err != nil {
+		return custom.Error(pctx, http.StatusInternalServerError, err)
+	}
+
+	return pctx.JSON(http.StatusOK, playerCoin)
 }
