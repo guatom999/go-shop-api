@@ -36,7 +36,7 @@ func (s *inventoryServiceImpl) getUniqueItemWithQuantityCounterList(inventoryEnt
 	itemMapWithQuantity := make(map[uint64]uint)
 
 	for _, inventory := range inventoryEntities {
-		itemMapWithQuantity[inventory.ID]++
+		itemMapWithQuantity[inventory.ItemID]++
 	}
 
 	for itemID, quantity := range itemMapWithQuantity {
@@ -52,7 +52,7 @@ func (s *inventoryServiceImpl) getUniqueItemWithQuantityCounterList(inventoryEnt
 
 func (s *inventoryServiceImpl) buildInventoryListingResult(uniqueItemWithQuantityConterList []_inventoryModel.ItemQuantityCounting) []*_inventoryModel.Inventory {
 
-	uniqueItemIDList := s.getItemID(uniqueItemWithQuantityConterList)
+	uniqueItemIDList := s.getItemID(uniqueItemWithQuantityConterList) //
 
 	itemEntities, err := s.itemShopRepository.FindByIDList(uniqueItemIDList)
 	if err != nil {

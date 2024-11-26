@@ -89,3 +89,15 @@ func (r *itemShopRepositoryImpl) FindByIDList(itemIDs []uint64) ([]*entities.Ite
 
 	return items, nil
 }
+
+func (r *itemShopRepositoryImpl) PurchaseHistoryRecording(purchasingEntity *entities.PurchaseHistory) (*entities.PurchaseHistory, error) {
+
+	insertedPurchasing := new(entities.PurchaseHistory)
+
+	if err := r.db.ConnectDatabase().Create(purchasingEntity).Scan(insertedPurchasing).Error; err != nil {
+		r.logger.Errorf("Failed to record purchase history: %s", err.Error())
+		return nil, &_itemShopException.HistoryOfPurchaseRecording{}
+	}
+
+	return insertedPurchasing, nil
+}

@@ -11,5 +11,6 @@ type (
 		Counting(itemFilter *_itemShopModel.ItemFilter) (int64, error)
 		FindByID(itemID uint64) (*entities.Item, error)
 		FindByIDList(itemIDs []uint64) ([]*entities.Item, error)
+		PurchaseHistoryRecording(purchasingEntity *entities.PurchaseHistory) (*entities.PurchaseHistory, error)
 	}
 )
