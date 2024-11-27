@@ -20,6 +20,6 @@ func (p *PlayerCoin) ToPlayerCoinModel() *_playerCoinModel.PlayerCoin {
 		ID:        p.ID,
 		PlayerID:  p.PlayerId,
 		Amount:    p.Amount,
-		CreatedAT: p.CreatedAt,
+		CreatedAt: p.CreatedAt,
 	}
 }
