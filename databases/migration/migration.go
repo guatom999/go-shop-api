@@ -17,11 +17,11 @@ func main() {
 
 	tx := db.ConnectDatabase().Begin()
 
-	playerMigration(tx)
-	adminMigration(tx)
-	itemMigration(tx)
-	playerCoinMigration(tx)
-	inventoryMigration(tx)
+	// playerMigration(tx)
+	// adminMigration(tx)
+	// itemMigration(tx)
+	// playerCoinMigration(tx)
+	// inventoryMigration(tx)
 	purchaseMigration(tx)
 
 	if err := tx.Commit(); err != nil {

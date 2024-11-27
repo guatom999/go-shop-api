@@ -98,7 +98,7 @@ func (r *inventoryRepositoryImpl) findPlayerItemInInventoryByID(playerID string,
 	).Limit(
 		limit,
 	).Find(
-		inventoryEntities,
+		&inventoryEntities,
 	).Error; err != nil {
 		r.logger.Errorf("error finding player item in inventory by ID : %s", err)
 		return nil, &_inventoryException.PlayerItemsFinding{PlayerID: playerID}

@@ -27,5 +27,6 @@ func (s *echoServer) initItemShopRouter(m *authorizingMiddleware) {
 	// _ = router
 
 	router.GET("", _itemShopController.Listing)
-	router.POST("", _itemShopController.Buying, m.PlayerAuthorizing)
+	router.POST("/buying", _itemShopController.Buying, m.PlayerAuthorizing)
+	router.POST("/selling", _itemShopController.Selling, m.PlayerAuthorizing)
 }
