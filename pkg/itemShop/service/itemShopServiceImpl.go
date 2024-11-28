@@ -14,22 +14,22 @@ import (
 type (
 	itemShopServiceImpl struct {
 		itemShopRepository   _itemShopRepository.ItemShopRepository
-		inventoryRepository  _inventoryRepository.InventoryRepository
 		playerCoinRepository _playerCoinRepository.PlayerCoinRepository
+		inventoryRepository  _inventoryRepository.InventoryRepository
 		logger               echo.Logger
 	}
 )
 
 func NewItemShopServiceImpl(
 	itemShopRepository _itemShopRepository.ItemShopRepository,
-	inventoryRepository _inventoryRepository.InventoryRepository,
 	playerCoinRepositoty _playerCoinRepository.PlayerCoinRepository,
+	inventoryRepository _inventoryRepository.InventoryRepository,
 	logger echo.Logger,
 ) ItemShopService {
 	return &itemShopServiceImpl{
 		itemShopRepository:   itemShopRepository,
-		inventoryRepository:  inventoryRepository,
 		playerCoinRepository: playerCoinRepositoty,
+		inventoryRepository:  inventoryRepository,
 		logger:               logger,
 	}
 }

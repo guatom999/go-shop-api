@@ -16,8 +16,8 @@ func (s *echoServer) initItemShopRouter(m *authorizingMiddleware) {
 
 	itemShopService := _itemShopService.NewItemShopServiceImpl(
 		itemShopRepository,
-		inventoryRepository,
 		playerCoinRepository,
+		inventoryRepository,
 		s.app.Logger,
 	)
 	_itemShopController := _itemShopController.NewItemShopControllerImpl(itemShopService)
