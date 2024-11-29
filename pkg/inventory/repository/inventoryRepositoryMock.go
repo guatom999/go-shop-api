@@ -14,7 +14,7 @@ type (
 
 func (m *InventoryRepositoryMock) Filling(tx *gorm.DB, playerID string, itemID uint64, qty int) ([]*entities.Inventory, error) {
 	args := m.Called(tx, playerID, itemID, qty)
-	return args.Get(0).([]*entities.Inventory), args.Error(0)
+	return args.Get(0).([]*entities.Inventory), args.Error(1)
 }
 
 func (m *InventoryRepositoryMock) Removing(tx *gorm.DB, playerID string, itemID uint64, limit int) error {
