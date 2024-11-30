@@ -175,7 +175,7 @@ func TestItemBuyingFail(t *testing.T) {
 				ItemID:   1,
 				Quantity: 3,
 			},
-			&_itemShopException.ItemNotFound{},
+			&_itemShopException.CoinNotEnough{},
 		},
 	}
 

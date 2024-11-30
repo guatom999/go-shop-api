@@ -215,7 +215,7 @@ func (s *itemShopServiceImpl) playerCoinChecking(playerID string, totalPrice int
 	}
 
 	if playerCoin.Coin < totalPrice {
-		s.logger.Errorf("Player Coin is not enough %s", err.Error())
+		s.logger.Errorf("Player Coin is not enough %s", err)
 		return &_itemShopException.CoinNotEnough{}
 	}
 
