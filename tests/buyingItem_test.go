@@ -10,6 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 
+	_itemShopException "github.com/guatom999/go-shop-api/pkg/itemShop/exception"
+
 	_itemShopModel "github.com/guatom999/go-shop-api/pkg/itemShop/model"
 	_playerCoinModel "github.com/guatom999/go-shop-api/pkg/playerCoin/model"
 
@@ -45,7 +47,7 @@ func TestItemBuyingSuccess(t *testing.T) {
 
 	playerCoinRepositoryMock.On("Showing", "P0001").Return(&_playerCoinModel.PlayerCoinShowing{
 		PlayerID: "P0001",
-		Coin:     3000,
+		Coin:     10000,
 	}, nil)
 
 	itemShopRepositoryMock.On("PurchaseHistoryRecording", &entities.PurchaseHistory{
@@ -55,7 +57,7 @@ func TestItemBuyingSuccess(t *testing.T) {
 		ItemDescription: "A sword that can be used to test the enemy's defense",
 		ItemPicture:     "https://www.google.com/sword-of-tester.jpg",
 		ItemPrice:       1000,
-		Quantity:        3,
+		Quantity:        4,
 		IsBuying:        true,
 	}, tx).Return(&entities.PurchaseHistory{
 		PlayerID:        "P0001",
@@ -64,20 +66,24 @@ func TestItemBuyingSuccess(t *testing.T) {
 		ItemDescription: "A sword that can be used to test the enemy's defense",
 		ItemPicture:     "https://www.google.com/sword-of-tester.jpg",
 		ItemPrice:       1000,
-		Quantity:        3,
+		Quantity:        4,
 		IsBuying:        true,
 	}, nil)
 
 	playerCoinRepositoryMock.On("CoinAdding", tx, &entities.PlayerCoin{
 		PlayerId: "P0001",
-		Amount:   -3000,
+		Amount:   -4000,
 	}).Return(&entities.PlayerCoin{
 		PlayerId: "P0001",
-		Amount:   -3000,
+		Amount:   -4000,
 	}, nil)
 
-	inventoryRepositoryMock.On("Filling", tx, "P0001", uint64(1), int(3)).Return(
+	inventoryRepositoryMock.On("Filling", tx, "P0001", uint64(1), int(4)).Return(
 		[]*entities.Inventory{
+			{
+				PlayerID: "P0001",
+				ItemID:   1,
+			},
 			{
 				PlayerID: "P0001",
 				ItemID:   1,
@@ -105,11 +111,11 @@ func TestItemBuyingSuccess(t *testing.T) {
 			in: &_itemShopModel.BuyingReq{
 				PlayerID: "P0001",
 				ItemID:   1,
-				Quantity: 3,
+				Quantity: 4,
 			},
 			expected: &_playerCoinModel.PlayerCoin{
 				PlayerID: "P0001",
-				Amount:   -3000,
+				Amount:   -4000,
 			},
 		},
 	}
@@ -122,4 +128,63 @@ func TestItemBuyingSuccess(t *testing.T) {
 		})
 	}
 
+}
+
+func TestItemBuyingFail(t *testing.T) {
+	itemShopRepositoryMock := new(_itemShopRepository.ItemShopRepositoryMock)
+	playerCoinRepositoryMock := new(_playerCoinRepository.PlayerCoinRepositoryMock)
+	inventoryRepositoryMock := new(_inventoryRepository.InventoryRepositoryMock)
+	echoLogger := echo.New().Logger
+
+	itemShopService := _itemShopService.NewItemShopServiceImpl(
+		itemShopRepositoryMock,
+		playerCoinRepositoryMock,
+		inventoryRepositoryMock,
+		echoLogger,
+	)
+
+	tx := &gorm.DB{}
+	itemShopRepositoryMock.On("BeginTransaction").Return(tx)
+	itemShopRepositoryMock.On("CommitTransaction", tx).Return(nil)
+	itemShopRepositoryMock.On("RollbackTransaction", tx).Return(nil)
+
+	itemShopRepositoryMock.On("FindByID", uint64(1)).Return(&entities.Item{
+		ID:          1,
+		Name:        "Sword of Tester",
+		Price:       1000,
+		Description: "A sword that can be used to test the enemy's defense",
+		Picture:     "https://www.google.com/sword-of-tester.jpg",
+	}, nil)
+
+	playerCoinRepositoryMock.On("Showing", "P001").Return(&_playerCoinModel.PlayerCoinShowing{
+		PlayerID: "P001",
+		Coin:     2000,
+	}, nil)
+
+	type args struct {
+		label    string
+		in       *_itemShopModel.BuyingReq
+		expected error
+	}
+
+	cases := []args{
+		{
+			"Test Find Item Failed",
+			&_itemShopModel.BuyingReq{
+				PlayerID: "P001",
+				ItemID:   1,
+				Quantity: 3,
+			},
+			&_itemShopException.ItemNotFound{},
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(c.label, func(t *testing.T) {
+			result, err := itemShopService.Buying(c.in)
+			assert.Nil(t, result)
+			assert.Error(t, err)
+			assert.EqualValues(t, c.expected, err)
+		})
+	}
 }
