@@ -59,7 +59,9 @@ func GetConfig() *Config {
 	once.Do(func() {
 		viper.SetConfigName("config")
 		viper.SetConfigType("yaml")
-		viper.AddConfigPath("./config")
+		// viper.AddConfigPath("./config")
+		viper.AddConfigPath("./bin")
+		// viper.AddConfigPath("./")
 		viper.AutomaticEnv()
 		viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
